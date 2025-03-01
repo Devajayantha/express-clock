@@ -12,3 +12,18 @@ services:
       - .:/app
       - /app/node_modules
     command: ["npm", "run", "start"]  # Runs the app in development mode
+  mysql_service:
+    image: mysql:8
+    container_name: express-ts-lock-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_clock
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - express_clock_mysql_data:/var/lib/mysql
+volumes:
+  express_clock_mysql_data:
