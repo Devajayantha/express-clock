@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app:
+    build: .  # Uses the Dockerfile to build the container
+    container_name: express-ts-clock
+    ports:
+      - "3001:3000"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: ["npm", "run", "start"]  # Runs the app in development mode
