@@ -22,4 +22,19 @@ model User {
   updatedAt DateTime @updatedAt() @map("updated_at")
 
   @@map("users")
+  PersonalAccessToken PersonalAccessToken[]
+}
+
+model PersonalAccessToken {
+  id        Int     @id @default(autoincrement())
+  name      String
+  token     String  @unique
+  userId    Int
+  expiredAt DateTime @map("expired_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  @@map("personal_access_tokens")
+  @@index([userId], name: "user_id")
+  user    User @relation(fields: [userId], references: [id])
 }

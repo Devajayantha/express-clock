@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import prisma from '../client';
+import prisma from '../../src/configs/prisma.config';
 
 async function userSeeder() {
   const password = await bcrypt.hash('password', 10);

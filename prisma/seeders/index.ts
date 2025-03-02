@@ -1,4 +1,4 @@
-import prisma from "../client";
+import prisma from '../../src/configs/prisma.config';
 import userSeeder from "./user.seeder";
 
 async function main() {
