@@ -23,6 +23,7 @@ model User {
 
   @@map("users")
   PersonalAccessToken PersonalAccessToken[]
+  Attendance Attendance[]
 }
 
 model PersonalAccessToken {
@@ -37,4 +38,17 @@ model PersonalAccessToken {
   @@map("personal_access_tokens")
   @@index([userId], name: "user_id")
   user    User @relation(fields: [userId], references: [id])
+}
+
+model Attendance {
+  id        Int     @id @default(autoincrement())
+  userId    Int     @map("user_id")
+  clockIn   DateTime @map("clock_in")
+  clockOut  DateTime? @map("clock_out")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  @@map("attendances")
+  @@index([userId], name: "user_id")
+  user User @relation(fields: [userId], references: [id])
 }
