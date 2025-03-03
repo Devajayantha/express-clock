@@ -5,6 +5,7 @@ An attendance application RESTful API was built using Express and TypeScript.
 ## Table of Contents
 - [Requirements](#requirements)
 - [Installation](#installation)
+- [Screenshoot](#screenshot)
 ---
 
 ## Requirements
@@ -58,3 +59,19 @@ Follow the steps below to set up the project on your local machine.
       ```bash
       npm run start
       ```
+## Screenshoot
+
+Here’s some screenshoot from my work.
+
+![Screenshot](https://devajayantha.github.io/assets/image-kp/image1.png)
+
+![Screenshot](https://devajayantha.github.io/assets/image-kp/image3.png)
+
+![Screenshot](https://devajayantha.github.io/assets/image-kp/image4.png)
+
+![Screenshot](https://devajayantha.github.io/assets/image-kp/image5.png)
+
+![Screenshot](https://devajayantha.github.io/assets/image-kp/image2.png)
+
+
+### Thank You
