@@ -1,0 +1,519 @@
+{
+	"info": {
+		"_postman_id": "8ee7f4a3-6439-4363-b376-a94d0b930ae7",
+		"name": "Express Clock",
+		"description": "A RESTful API project using Express and TypeScript.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5740451"
+	},
+	"item": [
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"devajayantha@gmail.com\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "test",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Respose 400",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "225"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"e1-ubN6/lHAXZZuW03/rcbGBr9R6zw\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 02 Mar 2025 05:58:18 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": false,\n    \"data\": [],\n    \"message\": \"Validation error\",\n    \"errors\": [\n        {\n            \"type\": \"field\",\n            \"msg\": \"Email is required\",\n            \"path\": \"email\",\n            \"location\": \"body\"\n        },\n        {\n            \"type\": \"field\",\n            \"msg\": \"Password is required\",\n            \"path\": \"password\",\n            \"location\": \"body\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "Response 200",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"devajayantha@gmail.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "test",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "297"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"129-QyNce3fuEp/AQpC8VN340luUwTA\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 02 Mar 2025 15:17:23 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"data\": {\n        \"user\": {\n            \"id\": 2,\n            \"email\": \"devajayantha@gmail.com\",\n            \"name\": \"Deva Jayantha\"\n        },\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQwOTI4NjQzLCJleHAiOjE3NDA5MzIyNDN9.Ja08u-MCKdRv1N5MChsq4JuRpxfb-94htRK4OmRgKAw\"\n    },\n    \"message\": \"User logged in successfully\",\n    \"errors\": {}\n}"
+				}
+			]
+		},
+		{
+			"name": "Attendance Clock In",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQwOTc5NjIwLCJleHAiOjE3NDA5ODMyMjB9.Jh5A6fzXnd2YdoDtgfs2iDNV651Us2huO8G1XgBALks",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/attendances/clock-in",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"attendances",
+						"clock-in"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Response 400",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/attendances/clock-in",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"attendances",
+								"clock-in"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "85"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"55-R1UzbTFWYIq8Be+3RehMOwyajvk\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 02 Mar 2025 16:16:14 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": false,\n    \"data\": [],\n    \"message\": \"You have already clocked in today\",\n    \"errors\": {}\n}"
+				},
+				{
+					"name": "Response 200",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/attendances/clock-in",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"attendances",
+								"clock-in"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "302"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"12e-Z/bhxBb63JxzlrlBkZxp+m27Xhs\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 02 Mar 2025 16:20:13 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"data\": {\n        \"user\": {\n            \"id\": 2,\n            \"name\": \"Deva Jayantha\",\n            \"email\": \"devajayantha@gmail.com\",\n            \"password\": \"$2b$10$6AJpAjQQ8NlW8JP3vwUKLuuEzy.NUVV3ZBQQ6yDSHg0bRv7C.kq7a\",\n            \"createdAt\": \"2025-03-02T15:30:43.806Z\",\n            \"updatedAt\": \"2025-03-02T15:30:43.806Z\"\n        }\n    },\n    \"message\": \"User clocked in successfully\",\n    \"errors\": {}\n}"
+				}
+			]
+		},
+		{
+			"name": "Attendance Clock Out",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQwOTc5NjIwLCJleHAiOjE3NDA5ODMyMjB9.Jh5A6fzXnd2YdoDtgfs2iDNV651Us2huO8G1XgBALks",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/attendances/clock-out",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"attendances",
+						"clock-out"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Response 200",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/attendances/clock-out",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"attendances",
+								"clock-out"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "303"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"12f-gVlmphFk8wW3Np7kDSYKDr5eSUI\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 02 Mar 2025 16:19:43 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"data\": {\n        \"user\": {\n            \"id\": 2,\n            \"name\": \"Deva Jayantha\",\n            \"email\": \"devajayantha@gmail.com\",\n            \"password\": \"$2b$10$6AJpAjQQ8NlW8JP3vwUKLuuEzy.NUVV3ZBQQ6yDSHg0bRv7C.kq7a\",\n            \"createdAt\": \"2025-03-02T15:30:43.806Z\",\n            \"updatedAt\": \"2025-03-02T15:30:43.806Z\"\n        }\n    },\n    \"message\": \"User clocked out successfully\",\n    \"errors\": {}\n}"
+				}
+			]
+		},
+		{
+			"name": "List Attendance",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQwOTkxNjA3LCJleHAiOjE3NDA5OTUyMDd9.Ql7I2ywMz3KdWtG1_RKIKPaesefSTq2X7nFzw-iDDyk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/attendances?startDate=2025-01-01&endDate=2025-03-30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"attendances"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2025-01-01"
+						},
+						{
+							"key": "endDate",
+							"value": "2025-03-30"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Response 200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/attendances",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"attendances"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "188"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"bc-aaASDsUQlnX3MO6ZATxMn9qNBWk\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 03 Mar 2025 05:59:23 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"attendanceId\": 10,\n            \"userId\": 2,\n            \"clockIn\": \"2025-03-03T05:27:11.528Z\",\n            \"clockOut\": \"2025-03-03T05:40:52.126Z\"\n        }\n    ],\n    \"message\": \"Attendances fetched successfully\",\n    \"errors\": {}\n}"
+				}
+			]
+		}
+	]
+}

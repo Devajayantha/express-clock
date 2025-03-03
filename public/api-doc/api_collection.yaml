@@ -1,0 +1,543 @@
+openapi: 3.0.3
+info:
+  title: Express Clock
+  description: A RESTful API project using Express and TypeScript.
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: http://localhost
+paths:
+  /api/auth/login:
+    post:
+      summary: Login User
+      description: Login User
+      operationId: loginUser
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+            example: test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: devajayantha@gmail.com
+                password:
+                  type: string
+                  example: password
+            examples:
+              Login User:
+                value:
+                  email: devajayantha@gmail.com
+                  password: password
+      responses:
+        '200':
+          description: Response 200
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '297'
+            Date:
+              schema:
+                type: string
+                example: Sun, 02 Mar 2025 15:17:23 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"129-QyNce3fuEp/AQpC8VN340luUwTA"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: >-
+                          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQwOTI4NjQzLCJleHAiOjE3NDA5MzIyNDN9.Ja08u-MCKdRv1N5MChsq4JuRpxfb-94htRK4OmRgKAw
+                      user:
+                        type: object
+                        properties:
+                          email:
+                            type: string
+                            example: devajayantha@gmail.com
+                          id:
+                            type: number
+                            example: 2
+                          name:
+                            type: string
+                            example: Deva Jayantha
+                  errors:
+                    type: object
+                    properties: {}
+                  message:
+                    type: string
+                    example: User logged in successfully
+                  success:
+                    type: boolean
+                    example: true
+              examples:
+                Response 200:
+                  value:
+                    data:
+                      token: >-
+                        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQwOTI4NjQzLCJleHAiOjE3NDA5MzIyNDN9.Ja08u-MCKdRv1N5MChsq4JuRpxfb-94htRK4OmRgKAw
+                      user:
+                        email: devajayantha@gmail.com
+                        id: 2
+                        name: Deva Jayantha
+                    errors: {}
+                    message: User logged in successfully
+                    success: true
+        '400':
+          description: Respose 400
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '225'
+            Date:
+              schema:
+                type: string
+                example: Sun, 02 Mar 2025 05:58:18 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"e1-ubN6/lHAXZZuW03/rcbGBr9R6zw"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: {}
+                    example: []
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        location:
+                          type: string
+                          example: body
+                        msg:
+                          type: string
+                          example: Email is required
+                        path:
+                          type: string
+                          example: email
+                        type:
+                          type: string
+                          example: field
+                    example:
+                      - location: body
+                        msg: Email is required
+                        path: email
+                        type: field
+                      - location: body
+                        msg: Password is required
+                        path: password
+                        type: field
+                  message:
+                    type: string
+                    example: Validation error
+                  success:
+                    type: boolean
+                    example: false
+              examples:
+                Respose 400:
+                  value:
+                    data: []
+                    errors:
+                      - location: body
+                        msg: Email is required
+                        path: email
+                        type: field
+                      - location: body
+                        msg: Password is required
+                        path: password
+                        type: field
+                    message: Validation error
+                    success: false
+  /api/attendances/clock-in:
+    post:
+      summary: Attendance Clock In
+      description: Attendance Clock In
+      operationId: attendanceClockIn
+      responses:
+        '200':
+          description: Response 200
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '302'
+            Date:
+              schema:
+                type: string
+                example: Sun, 02 Mar 2025 16:20:13 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"12e-Z/bhxBb63JxzlrlBkZxp+m27Xhs"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          createdAt:
+                            type: string
+                            example: '2025-03-02T15:30:43.806Z'
+                          email:
+                            type: string
+                            example: devajayantha@gmail.com
+                          id:
+                            type: number
+                            example: 2
+                          name:
+                            type: string
+                            example: Deva Jayantha
+                          password:
+                            type: string
+                            example: >-
+                              $2b$10$6AJpAjQQ8NlW8JP3vwUKLuuEzy.NUVV3ZBQQ6yDSHg0bRv7C.kq7a
+                          updatedAt:
+                            type: string
+                            example: '2025-03-02T15:30:43.806Z'
+                  errors:
+                    type: object
+                    properties: {}
+                  message:
+                    type: string
+                    example: User clocked in successfully
+                  success:
+                    type: boolean
+                    example: true
+              examples:
+                Response 200:
+                  value:
+                    data:
+                      user:
+                        createdAt: '2025-03-02T15:30:43.806Z'
+                        email: devajayantha@gmail.com
+                        id: 2
+                        name: Deva Jayantha
+                        password: >-
+                          $2b$10$6AJpAjQQ8NlW8JP3vwUKLuuEzy.NUVV3ZBQQ6yDSHg0bRv7C.kq7a
+                        updatedAt: '2025-03-02T15:30:43.806Z'
+                    errors: {}
+                    message: User clocked in successfully
+                    success: true
+        '400':
+          description: Response 400
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '85'
+            Date:
+              schema:
+                type: string
+                example: Sun, 02 Mar 2025 16:16:14 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"55-R1UzbTFWYIq8Be+3RehMOwyajvk"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: {}
+                    example: []
+                  errors:
+                    type: object
+                    properties: {}
+                  message:
+                    type: string
+                    example: You have already clocked in today
+                  success:
+                    type: boolean
+                    example: false
+              examples:
+                Response 400:
+                  value:
+                    data: []
+                    errors: {}
+                    message: You have already clocked in today
+                    success: false
+      security:
+        - bearerAuth: []
+  /api/attendances/clock-out:
+    patch:
+      summary: Attendance Clock Out
+      description: Attendance Clock Out
+      operationId: attendanceClockOut
+      responses:
+        '200':
+          description: Response 200
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '303'
+            Date:
+              schema:
+                type: string
+                example: Sun, 02 Mar 2025 16:19:43 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"12f-gVlmphFk8wW3Np7kDSYKDr5eSUI"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          createdAt:
+                            type: string
+                            example: '2025-03-02T15:30:43.806Z'
+                          email:
+                            type: string
+                            example: devajayantha@gmail.com
+                          id:
+                            type: number
+                            example: 2
+                          name:
+                            type: string
+                            example: Deva Jayantha
+                          password:
+                            type: string
+                            example: >-
+                              $2b$10$6AJpAjQQ8NlW8JP3vwUKLuuEzy.NUVV3ZBQQ6yDSHg0bRv7C.kq7a
+                          updatedAt:
+                            type: string
+                            example: '2025-03-02T15:30:43.806Z'
+                  errors:
+                    type: object
+                    properties: {}
+                  message:
+                    type: string
+                    example: User clocked out successfully
+                  success:
+                    type: boolean
+                    example: true
+              examples:
+                Response 200:
+                  value:
+                    data:
+                      user:
+                        createdAt: '2025-03-02T15:30:43.806Z'
+                        email: devajayantha@gmail.com
+                        id: 2
+                        name: Deva Jayantha
+                        password: >-
+                          $2b$10$6AJpAjQQ8NlW8JP3vwUKLuuEzy.NUVV3ZBQQ6yDSHg0bRv7C.kq7a
+                        updatedAt: '2025-03-02T15:30:43.806Z'
+                    errors: {}
+                    message: User clocked out successfully
+                    success: true
+      security:
+        - bearerAuth: []
+  /api/attendances:
+    get:
+      summary: List Attendance
+      description: List Attendance
+      operationId: listAttendance
+      parameters:
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            example: '2025-01-01'
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            example: '2025-03-30'
+      responses:
+        '200':
+          description: Response 200
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: '188'
+            Date:
+              schema:
+                type: string
+                example: Mon, 03 Mar 2025 05:59:23 GMT
+            ETag:
+              schema:
+                type: string
+                example: W/"bc-aaASDsUQlnX3MO6ZATxMn9qNBWk"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        attendanceId:
+                          type: number
+                          example: 10
+                        clockIn:
+                          type: string
+                          example: '2025-03-03T05:27:11.528Z'
+                        clockOut:
+                          type: string
+                          example: '2025-03-03T05:40:52.126Z'
+                        userId:
+                          type: number
+                          example: 2
+                    example:
+                      - attendanceId: 10
+                        clockIn: '2025-03-03T05:27:11.528Z'
+                        clockOut: '2025-03-03T05:40:52.126Z'
+                        userId: 2
+                  errors:
+                    type: object
+                    properties: {}
+                  message:
+                    type: string
+                    example: Attendances fetched successfully
+                  success:
+                    type: boolean
+                    example: true
+              examples:
+                Response 200:
+                  value:
+                    data:
+                      - attendanceId: 10
+                        clockIn: '2025-03-03T05:27:11.528Z'
+                        clockOut: '2025-03-03T05:40:52.126Z'
+                        userId: 2
+                    errors: {}
+                    message: Attendances fetched successfully
+                    success: true
+      security:
+        - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags: []
