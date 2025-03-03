@@ -28,7 +28,7 @@ export async function clockIn(req: Request, res: Response) {
       }
     });
 
-    returnResponse(res, StatusCode.OK, true, { user }, "User clocked in successfully");
+    returnResponse(res, StatusCode.OK, true, { attendance }, "User clocked in successfully");
   } catch (error) {
     returnResponse(res, StatusCode.SERVER_ERROR, false, [], "Internal server error");
   }
@@ -51,7 +51,10 @@ export async function clockOut(req: Request, res: Response) {
       return;
     }
 
-    // todo check if user has already clocked out
+    if (existAttendance[0].clock_out) {
+      returnResponse(res, StatusCode.BAD_REQUEST, false, [], "You have already clocked out today");
+      return;
+    }
 
     const attendance = await prisma.attendance.update({
       where: {
@@ -62,7 +65,7 @@ export async function clockOut(req: Request, res: Response) {
       }
     });
 
-    returnResponse(res, StatusCode.OK, true, { user }, "User clocked out successfully");
+    returnResponse(res, StatusCode.OK, true, { attendance }, "User clocked out successfully");
   } catch (error) {
     returnResponse(res, StatusCode.SERVER_ERROR, false, [], "Internal server error");
   }
