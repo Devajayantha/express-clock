@@ -58,3 +58,23 @@ export async function searchWithUpdate(req: Request, res: Response, index: strin
     returnResponse(res, StatusCode.SERVER_ERROR, false, [], "Internal server error");
   }
 }
+
+export async function showAll(req: Request, res: Response, index: string, filters: Object) {
+  try {
+    const data = await esClient.search({
+      index: index,
+      body: {
+        sort: [{ clockIn: { order: "desc" } }],
+        query: {
+          bool: {
+            filter: filters
+          }
+        }
+      }
+    });
+
+    return data.hits.hits.map(hit => hit._source);
+  } catch (error) {
+    returnResponse(res, StatusCode.SERVER_ERROR, false, [], "Internal server error");
+  }
+}

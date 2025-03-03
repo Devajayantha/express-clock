@@ -12,4 +12,6 @@ router.post("/auth/login", validate(loginRequest), UserController.login);
 router.post("/attendances/clock-in", authenticate, AttendanceController.clockIn)
 router.patch("/attendances/clock-out", authenticate, AttendanceController.clockOut)
 
+router.get("/attendances", authenticate, AttendanceController.getAttendance)
+
 export default router;

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { returnResponse } from "../utils/response.utils";
 import { StatusCode } from "../enums/status-code.enum";
 import { AuthRequest } from "../interfaces/auth.interface";
-import { save as saveOnElastic, searchWithUpdate as updateOnElastic  } from "../actions/elastics.action";  
+import { save as saveOnElastic, searchWithUpdate as updateOnElastic, showAll } from "../actions/elastics.action";
 import prisma from "../configs/prisma.config";
 
 export async function clockIn(req: Request, res: Response) {
@@ -29,7 +29,7 @@ export async function clockIn(req: Request, res: Response) {
       }
     });
 
-    await saveOnElastic(req, res, 
+    await saveOnElastic(req, res,
       {
         attendanceId: attendance.id,
         userId: user.id,
@@ -81,6 +81,40 @@ export async function clockOut(req: Request, res: Response) {
     }, attendance.id);
 
     returnResponse(res, StatusCode.OK, true, { attendance }, "User clocked out successfully");
+  } catch (error) {
+    returnResponse(res, StatusCode.SERVER_ERROR, false, [], "Internal server error");
+  }
+}
+
+export async function getAttendance(req: Request, res: Response) {
+  try {
+    const authReq = req as AuthRequest;
+    const user = authReq.user;
+    
+    const startDate = req.query.startDate
+      ? req.query.startDate
+      : null;
+
+    const endDate = req.query.endDate
+      ? req.query.endDate
+      : null;
+
+    let filters: any[] = [{ term: { userId: user.id } }];
+
+    if (startDate && endDate) {
+      filters.push({
+        range: {
+          clockIn: {
+            gte: startDate,
+            lte: endDate
+          }
+        }
+      })
+    }
+    
+    const data = await showAll(req, res, "attendances", filters);
+
+    returnResponse(res, StatusCode.OK, true, data, "Attendances fetched successfully");
   } catch (error) {
     returnResponse(res, StatusCode.SERVER_ERROR, false, [], "Internal server error");
   }
