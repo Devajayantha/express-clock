@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { returnResponse } from "../utils/response.utils";
 import { StatusCode } from "../enums/status-code.enum";
 import { AuthRequest } from "../interfaces/auth.interface";
+import { save as saveOnElastic, searchWithUpdate as updateOnElastic  } from "../actions/elastics.action";  
 import prisma from "../configs/prisma.config";
 
 export async function clockIn(req: Request, res: Response) {
@@ -27,6 +28,14 @@ export async function clockIn(req: Request, res: Response) {
         clockIn: new Date()
       }
     });
+
+    await saveOnElastic(req, res, 
+      {
+        attendanceId: attendance.id,
+        userId: user.id,
+        clockIn: attendance.clockIn,
+        clockOut: null
+      }, "attendances");
 
     returnResponse(res, StatusCode.OK, true, { attendance }, "User clocked in successfully");
   } catch (error) {
@@ -64,6 +73,12 @@ export async function clockOut(req: Request, res: Response) {
         clockOut: new Date()
       }
     });
+
+    await updateOnElastic(req, res, "attendances", {
+      doc: {
+        clockOut: attendance.clockOut
+      }
+    }, attendance.id);
 
     returnResponse(res, StatusCode.OK, true, { attendance }, "User clocked out successfully");
   } catch (error) {
