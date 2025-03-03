@@ -1,11 +1,17 @@
 import { NextFunction, Request, Response } from "express";
-import { User } from '@prisma/client';
 import { returnResponse } from "../utils/response.utils";
 import { StatusCode } from "../enums/status-code.enum";
 import jwt from 'jsonwebtoken';
 import prisma from "../configs/prisma.config";
+import { getDetail as getFromRedis, save as saveIntoRedis } from "../actions/redis.action";
 
-export async function authenticate(req: Request & { user?: User }, res: Response, next: NextFunction) {
+interface AuthUser {
+  id: number;
+  email: string;
+  name: string;
+}
+
+export async function authenticate(req: Request & { user?: AuthUser }, res: Response, next: NextFunction) {
   try {
     const authHeader = req.header('Authorization');
     if (!authHeader) {
@@ -33,6 +39,20 @@ export async function authenticate(req: Request & { user?: User }, res: Response
       return;
     }
 
+    const getUserOnRedis = await getFromRedis('users', (decoded as jwt.JwtPayload).id);
+
+    if (getUserOnRedis) {
+      const userMap: AuthUser = {
+        id: Number(getUserOnRedis.id),
+        name: getUserOnRedis.name,
+        email: getUserOnRedis.email
+      }
+
+      req.user = userMap
+      next();
+      return;
+    }
+
     const user = await prisma.user.findFirst({
       where: { id: (decoded as jwt.JwtPayload).id }
     });
@@ -41,6 +61,12 @@ export async function authenticate(req: Request & { user?: User }, res: Response
       returnResponse(res, StatusCode.NOT_FOUND, false, [], "User not found", { email: "User not found" });
       return;
     }
+
+    await saveIntoRedis('users', user.id, {
+      id: user.id,
+      name: user.name,
+      email: user.email
+    });
 
     req.user = user;
     next();
