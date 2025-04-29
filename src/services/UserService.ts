@@ -3,6 +3,7 @@ import { config } from "../configs/config";
 import { StatusCode } from "../enums/StatusCode";
 import bcrypt from 'bcrypt';
 import JwtRule from "../utils/JwtRule";
+import { User } from "@prisma/client";
 
 interface LoginInput {
   email: string;
@@ -39,7 +40,7 @@ class UserService {
       });
     }
 
-    const token = await this.tokenManipulate(user.id);
+    const token = await this.tokenManipulate(user);
 
     res.status(StatusCode.OK).json({
       success: true,
@@ -49,19 +50,21 @@ class UserService {
     });
   }
 
-  protected static async tokenManipulate(userId: number): Promise<string> {
+  protected static async tokenManipulate(user: User): Promise<string> {
     const prisma = config.prisma.getClient();
     const expiredAt = new Date();
 
     expiredAt.setHours(expiredAt.getHours() + 1);
 
-    const token = await JwtRule.generateToken(userId);
+    const token = await JwtRule.generateToken(user);
+
+    console.log("token", token);
 
     const accessToken = await prisma.personalAccessToken.create({
       data: {
         name: 'Access Token',
         token: token,
-        userId: userId,
+        userId: user.id,
         expiredAt: expiredAt,
       }
     });

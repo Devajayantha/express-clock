@@ -1,18 +1,27 @@
 import { NextFunction, Request, response, Response } from "express";
 import { StatusCode } from "../enums/StatusCode";
 import jwt from 'jsonwebtoken';
-import { config } from '../configs/config'; 
+import { config } from '../configs/config';
 import { User } from "@prisma/client";
 
 interface AuthRequest extends Request {
-  user?: User;
-} 
+  user?: UserRequest
+}
+
+interface UserRequest {
+  id: number;
+  name: string;
+  email: string;
+}
+
 export default class AuthMiddleware {
-  static async authenticate(req: AuthRequest, res: Response, next: NextFunction): Promise<void>{
+  static async authenticate(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
     try {
       const prisma = config.prisma.getClient();
+      const redis = config.redis.getClient();
 
       const authHeader = req.header('Authorization');
+
       if (!authHeader) {
         res.status(StatusCode.UNAUTHORIZED).json({
           success: false,
@@ -38,9 +47,9 @@ export default class AuthMiddleware {
         return;
       }
 
-        const storedToken = await prisma.personalAccessToken.findUnique({
-          where: { token },
-        });
+      const storedToken = await prisma.personalAccessToken.findUnique({
+        where: { token },
+      });
 
       if (!storedToken) {
         res.status(StatusCode.UNAUTHORIZED).json({
@@ -66,23 +75,38 @@ export default class AuthMiddleware {
         return;
       }
 
-      const user = await prisma.user.findFirst({
-        where: { id: (decoded as jwt.JwtPayload).id },
-      });
+      let user: UserRequest | undefined;
 
-      if (!user) {
-        res.status(StatusCode.UNAUTHORIZED).json({
-          success: false,
-          message: 'User not found',
-          data: [],
-          errors: {},
+      const cacheUser = await redis.get(`user:${(decoded as jwt.JwtPayload).id}`);
+
+      if (cacheUser) {
+        user = JSON.parse(cacheUser) as UserRequest;
+      } else {
+        const user = await prisma.user.findFirst({
+          where: { id: (decoded as jwt.JwtPayload).id },
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
         });
 
-        return;
+        if (!user) {
+          res.status(StatusCode.UNAUTHORIZED).json({
+            success: false,
+            message: 'User not found',
+            data: [],
+            errors: {},
+          });
+
+          return;
+        }
+
+        await redis.set(`user:${(decoded as jwt.JwtPayload).id}`, JSON.stringify(user));
       }
 
       req.user = user;
-      next(); 
+      next();
     } catch (error: any) {
       res.status(StatusCode.UNAUTHORIZED).json({
         success: false,
