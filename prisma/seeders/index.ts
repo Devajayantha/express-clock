@@ -1,5 +1,7 @@
-import prisma from '../../src/configs/prisma.config';
+import { config } from '../../src/configs/config';
 import userSeeder from "./user.seeder";
+
+const prisma = config.prisma.getClient();
 
 async function main() {
   console.log('Seeding started...');
@@ -12,6 +14,7 @@ async function main() {
 main()
   .then(async () => {
     await prisma.$disconnect()
+    process.exit(0)
   })
   .catch(async (e) => {
     console.error(e)
