@@ -1,20 +1,27 @@
 import { Request, Response } from "express";
 import AttendanceService from "../services/AttendanceService";
+import AuthRequest from '../interfaces/AuthRequest';
 
 class AttendanceController {
-  static async getAll(req: Request, res: Response): Promise<void> {
+  static async storeClockIn(req: Request, res: Response): Promise<void> {
     try {
-      const attendances = await AttendanceService.getAllAttendances(req, res);
-
-      res.status(200).json({
-        success: true,
-        message: "Attendance records retrieved successfully",
-        data: attendances,
-      });
+      await AttendanceService.clockIn(req, res);
     } catch (error: any) {
       res.status(500).json({
         success: false,
-        message: "Error retrieving attendance records",
+        message: "Error recording clock-in time",
+        error: error.message,
+      });
+    }
+  }
+
+  static async storeClockOut(req: AuthRequest, res: Response): Promise<void> {
+    try {
+      await AttendanceService.clockOut(req, res);
+    } catch (error: any) {
+      res.status(500).json({
+        success: false,
+        message: "Error recording clock-out time",
         error: error.message,
       });
     }

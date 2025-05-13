@@ -2,17 +2,8 @@ import { NextFunction, Request, response, Response } from "express";
 import { StatusCode } from "../enums/StatusCode";
 import jwt from 'jsonwebtoken';
 import { config } from '../configs/config';
-import { User } from "@prisma/client";
-
-interface AuthRequest extends Request {
-  user?: UserRequest
-}
-
-interface UserRequest {
-  id: number;
-  name: string;
-  email: string;
-}
+import AuthRequest from "../interfaces/AuthRequest";
+import UserRequest from "../interfaces/UserRequest";
 
 export default class AuthMiddleware {
   static async authenticate(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
