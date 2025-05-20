@@ -57,9 +57,7 @@ class UserService {
     expiredAt.setHours(expiredAt.getHours() + 1);
 
     const token = await JwtRule.generateToken(user);
-
-    console.log("token", token);
-
+    
     const accessToken = await prisma.personalAccessToken.create({
       data: {
         name: 'Access Token',

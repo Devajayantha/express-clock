@@ -2,7 +2,7 @@ import ElasticSearchConfig from './ElasticSearchConfig';
 import PrismaConfig from './PrismaConfig';
 import RedisConfig from './RedisConfig';
 
-const prismaConfig = new PrismaConfig();
+const prismaConfig = PrismaConfig.getInstance();
 const redisConfig = new RedisConfig();
 const elasticConfig = ElasticSearchConfig.getInstance();
 
